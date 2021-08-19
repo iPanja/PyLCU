@@ -5,9 +5,10 @@ This was created to better understand the LCU and its API as well as to create a
 
 # Usage
 ``` python
-port, password = ConnectionTool.fetch_credentials()
+port, password = Credentials.fetch()
 lcu = LCUAPI(port, password)
 
-lcu.set_position_preferences("MIDDLE", "JUNGLE")
-lcu.enter_matchmaking()
+if lcu.isConnected:
+    lcu.set_position_preferences("MIDDLE", "JUNGLE")
+    lcu.enter_matchmaking()
 ```
