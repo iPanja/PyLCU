@@ -12,3 +12,6 @@ if lcu.isConnected:
     lcu.set_position_preferences("MIDDLE", "JUNGLE")
     lcu.enter_matchmaking()
 ```
+
+# Acknowledgements
+This wouldn't have been possible if not for the documentation provided by [hextechdocs.dev](https://hextechdocs.dev/).
