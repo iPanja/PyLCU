@@ -1,7 +1,16 @@
 import subprocess, shlex, re, platform, click
 from typing import Tuple
 
-class ConnectionTool:
+class Credentials:
+    #Returns (port, password) for the localally hosted API (wamp server)
+    @staticmethod
+    def fetch() -> Tuple[int, str]:
+        while True:
+            try:
+                app_port, password = Credentials.__getLockfileInfo()
+                return (app_port, password)
+            except TypeError:
+                return False
     #Get string containing app_port and password from League process output
     @staticmethod
     def __getProccessInfo() -> str:
@@ -16,9 +25,9 @@ class ConnectionTool:
         return output
     #Parse the app_port and password from __getProcessInfo() - {app_port, password}
     @staticmethod
-    def getLockfileInfo() -> Tuple[int, str]:
+    def __getLockfileInfo() -> Tuple[int, str]:
         try:
-            info = ConnectionTool.__getProccessInfo()
+            info = Credentials.__getProccessInfo()
             app_port = re.search('--app-port=([0-9]*)', info).group()
             remoting_auth_token = re.search('--remoting-auth-token=([-\w_]*)', info).group()
             if app_port == None or remoting_auth_token == None:
@@ -30,11 +39,4 @@ class ConnectionTool:
             return (int(app_port), password)
         except AttributeError:
             return False
-    @staticmethod
-    def fetch_credentials() -> Tuple[int, str]:
-        while True:
-            try:
-                app_port, password = ConnectionTool.getLockfileInfo()
-                return (app_port, password)
-            except TypeError:
-                return False
+    
