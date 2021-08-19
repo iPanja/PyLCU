@@ -2,15 +2,11 @@ import subprocess, shlex, re, platform, click
 from typing import Tuple
 
 class Credentials:
-    #Returns (port, password) for the localally hosted API (wamp server)
+    #Returns (port, password) for the localally hosted API (wamp server). Returns (None, None) on error.
     @staticmethod
     def fetch() -> Tuple[int, str]:
-        while True:
-            try:
-                app_port, password = Credentials.__getLockfileInfo()
-                return (app_port, password)
-            except TypeError:
-                return False
+        return Credentials.__getLockfileInfo()
+    
     #Get string containing app_port and password from League process output
     @staticmethod
     def __getProccessInfo() -> str:
@@ -23,6 +19,7 @@ class Credentials:
         
         output = proc.stdout
         return output
+    
     #Parse the app_port and password from __getProcessInfo() - {app_port, password}
     @staticmethod
     def __getLockfileInfo() -> Tuple[int, str]:
@@ -38,5 +35,5 @@ class Credentials:
 
             return (int(app_port), password)
         except AttributeError:
-            return False
+            return (None, None)
     
