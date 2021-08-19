@@ -1,0 +1,13 @@
+# PyLCU
+A Python wrapper for the League of Legends Client (LCU). This will not contain every endpoint available but the ones I need to use for other projects.
+
+This was created to better understand the LCU and its API as well as to create a tool to automate champion selection.
+
+# Usage
+``` python
+port, password = ConnectionTool.fetch_credentials()
+lcu = LCUAPI(port, password)
+
+lcu.set_position_preferences("MIDDLE", "JUNGLE")
+lcu.enter_matchmaking()
+```

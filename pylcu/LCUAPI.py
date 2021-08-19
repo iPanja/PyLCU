@@ -39,8 +39,8 @@ class LCUAPI:
     def set_position_preferences(self, primary: str, secondary: str):
         #valid_options = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "SUPPORT"]
         payload = {
-            "firstPreference": primary,
-            "secondPreference": secondary
+            "firstPreference": primary.upper(),
+            "secondPreference": secondary.upper()
         }
         return self.__put_data(self.url.set_position_preferences_url(), data=payload)
     def set_lobby_queue_id(self, id: int):
