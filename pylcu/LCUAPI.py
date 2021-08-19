@@ -7,6 +7,7 @@ class LCUAPI:
     def __init__(self, port: int, password: str):
         self.url = URLs(port)
         self.auth = HTTPBasicAuth('riot', password)
+    
     """Helper Methods"""
     #Requests response to json
     def __format_response(response: requests.models.Response) -> str:
@@ -20,6 +21,13 @@ class LCUAPI:
         return self.__format_response(requests.put(url, auth=self.auth, data=data))
     def __delete_data(self, url):
         return self.__format_response(requests.delete(url, auth=self.auth))
+    
+    """PROPERTIES"""
+    @property
+    def isConnected(self) -> bool:
+        #Find a generic endpoint with a consistent response to test connection
+        return self.__get_data(self.url.summoner_url()) != None
+
     """WRAPPER CALLS"""
     #SUMMONER
     def get_summoner(self):
@@ -51,3 +59,6 @@ class LCUAPI:
         return self.__post_data(self.url.kick_lobby_member().format(id=str(summonerId)), data=summonerId)
     def promote_lobby_member(self, summonerId: int):
         return self.__post_data(self.url.promote_lobby_member().format(id=str(summonerId)), data=summonerId)
+    
+    """WEBSOCKETS"""
+    #TODO...
