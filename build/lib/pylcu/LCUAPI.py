@@ -1,12 +1,7 @@
 import requests, json
 from requests.auth import HTTPBasicAuth
-from requests.models import InvalidURL
 
 from pylcu.URLs import *
-
-import urllib3
-
-urllib3.disable_warnings()
 
 class LCUAPI:
     def __init__(self, port: int, password: str):
@@ -15,29 +10,23 @@ class LCUAPI:
     
     """Helper Methods"""
     #Requests response to json
-    def __format_response(self, response: requests.models.Response) -> str:
-        try:
-            return response.json()
-        except Exception:
-            return response
+    def __format_response(response: requests.models.Response) -> str:
+        return response.json()
     #GET request
     def __get_data(self, url, parameters=None):
         return self.__format_response(requests.get(url, auth=self.auth, verify=False, params=parameters))
     def __post_data(self, url, data=None):
-        return self.__format_response(requests.post(url, auth=self.auth, verify=False, data=json.dumps(data), headers={'Content-type': 'application/json', 'Accept': 'application/json'}))
+        return self.__format_response(requests.post(url, auth=self.auth, data=data))
     def __put_data(self, url, data=None):
-        return self.__format_response(requests.put(url, auth=self.auth, verify=False, data=json.dumps(data), headers={'Content-type': 'application/json', 'Accept': 'application/json'}))
+        return self.__format_response(requests.put(url, auth=self.auth, data=data))
     def __delete_data(self, url):
-        return self.__format_response(requests.delete(url, auth=self.auth, verify=False))
+        return self.__format_response(requests.delete(url, auth=self.auth))
     
     """PROPERTIES"""
     @property
     def isConnected(self) -> bool:
         #Find a generic endpoint with a consistent response to test connection
-        try:
-            return self.__get_data(self.url.summoner_url()) != None
-        except InvalidURL:
-            return False
+        return self.__get_data(self.url.summoner_url()) != None
 
     """WRAPPER CALLS"""
     #SUMMONER
@@ -61,7 +50,6 @@ class LCUAPI:
             "firstPreference": primary.upper(),
             "secondPreference": secondary.upper()
         }
-        print(json.dumps(payload))
         return self.__put_data(self.url.set_position_preferences_url(), data=payload)
     def set_lobby_queue_id(self, id: int):
         return self.__put_data(self.url.set_lobby_queue_id(), data=id)
@@ -74,7 +62,3 @@ class LCUAPI:
     
     """WEBSOCKETS"""
     #TODO...
-
-    """CUSTOM"""
-    def get(self, endpoint):
-        return self.__get_data(self.url.base_url + endpoint)
