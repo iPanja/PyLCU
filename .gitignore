@@ -1,3 +1,5 @@
 venv/*
 venv
 test.py
+pylcu/_pycache_/
+pylcu/_pycache_/*
