@@ -61,7 +61,6 @@ class LCUAPI:
             "firstPreference": primary.upper(),
             "secondPreference": secondary.upper()
         }
-        print(json.dumps(payload))
         return self.__put_data(self.url.set_position_preferences_url(), data=payload)
     def set_lobby_queue_id(self, id: int):
         return self.__put_data(self.url.set_lobby_queue_id(), data=id)
