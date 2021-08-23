@@ -1,5 +1,5 @@
 venv/*
 venv
 test.py
-pylcu/_pycache_/
-pylcu/_pycache_/*
+pylcu/__pycache__/
+pylcu/__pycache__/*
